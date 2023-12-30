@@ -254,3 +254,66 @@ Files.newDirectoryStream( Paths.get("fpij"), path-> path.toString().endsWith(".j
 final File[] files = new File(".").listFiles(file-> file.isHidden());
 ```
 ## Designing with lambda expressions
+
+### Separating Concerns Using Lambda Expressions
+
+We can replace interfaces, class hierarchies, and anonymous inner classes with concise code. We’ll use lambda expressions to easily separate logic from functions, making them more extensible.
+
+Imagine the following class:
+
+```
+public class Asset {
+    public enum AssetType { BOND, STOCK };
+    private final AssetType type;
+    private final int value;
+
+    public Asset(final AssetType assetType, final int assetValue) {
+        type = assetType;
+        value = assetValue;
+    }
+
+    public AssetType getType() {
+        return type;
+    }
+
+    public int getValue() {
+        return value;
+    }
+}
+```
+
+And we want to make the following method to return the sum of all the given ´Asset´ instances:
+
+```
+public static int totalAssetValues(final List<Asset> assets) {
+    return assets.stream()
+                    .mapToInt(Asset::getValue)
+                    .sum();
+}
+```
+We transformed the List of Assets into a Stream, then mapped that into a Stream of values using the mapToInt() method. Finally we reduced or totaled the values in this stream to arrive at a single value using the sum() method. However, imagine we want to filter by the asset type. We should introduce here a filter. This implies another different method where the only thing that changes is the filter addition.
+
+```
+public static int totalBondValues(final List<Asset> assets) {
+    return assets.stream()
+                    .mapToInt(asset-> asset.getType() == AssetType.BOND ? asset.getValue() : 0)
+                    .sum();
+}
+```
+And if we want to filtet by another value? We need to create more methods. We can instead apply an strategy pattern based on lamba expressions. The *strategy pattern* itself by definition and how is applied in Java consists on taking a class that does something specific in a lot of different ways and extract all of these algorithms into separate classes called strategies. The original class, called context, must have a field for storing a reference to one of the strategies. The context delegates the work to a linked strategy object instead of executing it on its own. Here, instead of using classes we are using lambda expressions to separate the concern from the method. This is a simple use of the strategy pattern, but without the burden of creating extra classes. We will send the filter as a Predicate argument of the method:
+
+```
+public static int totalAssetValues(final List<Asset> assets, final Predicate<Asset> assetSelector) {
+    return assets.stream()
+                    .filter(assetSelector)
+                    .mapToInt(Asset::getValue)
+                    .sum();
+ }
+```
+So when we call the method:
+
+```
+totalAssetValues(assets,asset-> true));
+totalAssetValues(assets,asset-> asset.getType() == AssetType.BOND));
+totalAssetValues(assets,asset-> asset.getType() == AssetType.STOCK));
+```
