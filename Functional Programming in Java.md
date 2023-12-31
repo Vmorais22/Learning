@@ -317,3 +317,7 @@ totalAssetValues(assets,asset-> true));
 totalAssetValues(assets,asset-> asset.getType() == AssetType.BOND));
 totalAssetValues(assets,asset-> asset.getType() == AssetType.STOCK));
 ```
+
+### Delegating Using Lambda Expressions
+
+On the section above we separated the concern from the method, but we can even separate it from the class. *Delegation* means hand over the responsibility for a particular task to another class or method. It is a technique where an object expresses certain behavior to the outside but in reality delegates responsibility for implementing that behaviour to an associated object. We can do it with lambda expressions too in order to reduce class proliferation.
