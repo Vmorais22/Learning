@@ -332,6 +332,8 @@ First of all let's put in common some definitions:
 
 - High Order Function: A function that takes a function as an argument or returns a function as a result.
 
+### Cleaning up resources
+
 Althought Java provides fre options to properly clean u resources via the Garbage Collector we can even do more to imrpove it with streams. Here we are going to make use of the *execute around method pattern*. A good to exmaple to demostrate when the Garbage Collector fails to clean memory we can clean ourselves is when opening and closing streamings or files. We open an stream to write into a file and we forget to close it. We are not using it any more, is consuming memory but as we have enough in our system the Garbage Collector do not reclaim the memory. In order to fix that is important to find ways to perform both actions together. The opening and the closing. And when a pair of actions have to be taken together (such as file open/close for example) we can use a HighOrderFunction that wraps the actions around the fuction that is passed in. 
 
 Imagine we have the following class to write on a file:
@@ -407,3 +409,7 @@ So now we can call this interface method to ensure file opened is closed and pas
     });
 ````
 We can place multiple lines of code within a lambda expression by wrapping them in a {} block.
+
+### Managing Locks
+
+
