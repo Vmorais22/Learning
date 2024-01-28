@@ -321,3 +321,72 @@ totalAssetValues(assets,asset-> asset.getType() == AssetType.STOCK));
 ### Delegating Using Lambda Expressions
 
 On the section above we separated the concern from the method, but we can even separate it from the class. *Delegation* means hand over the responsibility for a particular task to another class or method. It is a technique where an object expresses certain behavior to the outside but in reality delegates responsibility for implementing that behaviour to an associated object. We can do it with lambda expressions too in order to reduce class proliferation.
+
+## Working with resources
+
+First of all let's put in common some definitions:
+
+- *Java Virtual machine (JVM)*: The Java Virtual Machine (JVM) is a crucial component of the Java Runtime Environment (JRE) and the Java Development Kit (JDK). It is a virtual machine that provides an environment for Java bytecode to be executed. Java bytecode (.class files)  is the intermediate representation of Java source code after it has been compiled, but before it is translated into machine code for a specific hardware platform. The JVM is responsible for managing memory allocation and garbage collection in a Java program. It automatically handles the allocation and deallocation of memory, making it easier for developers to write code without explicitly managing memory.
+
+- *Garbage collection: Garbage collection is a fundamental concept in computer science and programming languages, and it refers to the automatic memory management process of identifying and reclaiming memory that is no longer in use by the program. In languages with automatic garbage collection, developers don't need to manually allocate and deallocate memory; instead, the system takes care of cleaning up unused memory, preventing memory leaks and improving program reliability. When a program runs, it dynamically allocates memory to store data structures like objects, arrays, or other variables. The program uses this memory for its operations. The Gargabe collector is in charge of identifying unreachable objects and reclaims the memorry used by them. An unreachable object is an object that are no longer accessible by the program being executed.
+
+- High Order Function: A function that takes a function as an argument or returns a function as a result.
+
+Althought Java provides fre options to properly clean u resources via the Garbage Collector we can even do more to imrpove it with streams. Here we are going to make use of the *execute around method pattern*. A good to exmaple to demostrate when the Garbage Collector fails to clean memory we can clean ourselves is when opening and closing streamings or files. We open an stream to write into a file and we forget to close it. We are not using it any more, is consuming memory but as we have enough in our system the Garbage Collector do not reclaim the memory. In order to fix that is important to find ways to perform both actions together. The opening and the closing. And when a pair of actions have to be taken together (such as file open/close for example) we can use a HighOrderFunction that wraps the actions around the fuction that is passed in. 
+
+Imagine we have the following class to write on a file:
+
+````
+public class FileWriterExample {
+    private final FileWriter writer;
+
+    public FileWriterExample(final String fileName) throws IOException {
+        writer = new FileWriter(fileName);
+    }
+
+    public void writeStuff(final String message) throws IOException {
+        writer.write(message);
+    }
+
+    public void finalize() throws IOException {
+        writer.close();
+    }
+````
+We can observe that:
+
+- Writting a file without closing it:
+````
+public static void main(final String[] args) throws IOException {
+    final FileWriterExample writerExample = new FileWriterExample("peekaboo.txt");
+    writerExample.writeStuff("peek-a-boo");
+}
+````
+- We are not clenaning memory. Let's force the clean up by calling the close method:
+````
+public static void main(final String[] args) throws IOException {
+    final FileWriterExample writerExample = new FileWriterExample("peekaboo.txt");
+    writerExample.writeStuff("peek-a-boo");
+    writerExample.close();
+}
+````
+- Good we are cleaning if everyting goes cool. But if an exception is thrown, we can not ensure is called. We can use try/catch/finally block maybe?
+  
+````
+public static void main(final String[] args) throws IOException {
+    final FileWriterExample writerExample = new FileWriterExample("peekaboo.txt");
+    try {
+        writerExample.writeStuff("peek-a-boo");
+    }
+    catch(Exception e) {
+        log.error(e.getMessage());
+    }
+    finally {
+        writerExample.close();
+    }
+}
+````
+This should work but cool be better read. Instead we can protect the class by using private constructor and ``close()`` methods
+
+
+
+T
