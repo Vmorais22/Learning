@@ -385,8 +385,25 @@ public static void main(final String[] args) throws IOException {
     }
 }
 ````
-This should work but cool be better read. Instead we can protect the class by using private constructor and ``close()`` methods
+This should work but cool be better read. Instead we can protect the class by using private constructor and ``close()`` methods so we require to use an Interface call in order to instantatie the writer class. Here is where we add to the game the High Order Fucntions we were discussing before.
 
+````
+    public static void use(final String fileName, final UseInstance<FileWriterEAM, IOException> block) throws IOException {
+        final FileWriterEAM writerEAM = new FileWriterEAM(fileName);
+        try {
+            block.accept(writerEAM);
+        } finally {
+            writerEAM.close();
+        }
+    }
+````
 
+So now we can call this interface method to ensure file opened is closed and pass as a function the write actions we want to perform:
 
-T
+````
+    FileWriterEAM.use("eam2.txt", writerEAM -> {
+        writerEAM.writeStuff("how");
+        writerEAM.writeStuff("sweet");
+    });
+````
+We can place multiple lines of code within a lambda expression by wrapping them in a {} block.
