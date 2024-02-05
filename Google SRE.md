@@ -61,5 +61,68 @@ Provisioning, involving change management and capacity planning, must be conduct
 
 Utilization, a function of demand, capacity, and software efficiency, is a key lever for controlling service costs. SREs focus on optimizing provisioning strategy, monitoring performance, and modifying services for improved efficiency.
 
+## Foundations
 
+The basic foundations of SRE include SLOs, monitoring, alerting, toil reduction, and simplicity.
+
+### Implementing SLOs
+
+Service level objectives (SLOs) specify a target level for the reliability of your service. Striking the right balance between investing in functionality that will win new customers or retain current ones, versus investing in the reliability and scalability that will keep those customers happy, is difficult. SLOs are a tool to help determine what engineering work to prioritize. or example, consider the engineering tradeoffs for two reliability projects: automating rollbacks and moving to a replicated data store. By calculating the estimated impact on our error budget, we can determine which project is most beneficial to our users. 
+
+In order to adopt an error budget-based approach to Site Reliability Engineering, you need to reach a state where the following hold true:
+
+- There are SLOs that all stakeholders in the organization have approved as being fit for the product.
+- The people responsible for ensuring that the service meets its SLO have agreed that it is possible to meet this SLO under normal circumstances.
+- The organization has committed to using the error budget for decision making and prioritizing. This commitment is formalized in an error budget policy.
+- There is a process in place for refining the SLO.
+
+### Reliability Targets and Error Budgets
+
+An SLO sets a target level of reliability for the service’s customers. Above this threshold, almost all users should be happy with your service. Below this threshold, users are likely to start complaining or to stop using the service. Once you have an SLO target below 100%, it needs to be owned by someone in the organization who is empowered to make tradeoffs between feature velocity and reliability. This is normally the product owner (or product manager).
+
+But, how to mesure the right number? **Using SLI**. An SLI is an indicator of the level of service that you are providing. Is recommended to think the SLI as a ratio of two numbers. The **number of good events / total number of events**. (for example: Succesful HTTP requests / total HTTP requests). This scalated format helps defining the error budget:
+
+*For example if our SLO is just based on the HTTP request SLI mentioned above and it's 90% it means that our SLO is 90 out of 100 HTTP request should be succesful or, in other words, a budget error of 10 out of 100 HTTP request that will fail. If we have 50 out of 100 HTTP requests failing we are excedding our error budget.*
+
+Also helps on writting alerting logic.
+
+### Specificating SLI
+
+When attempting to formulate SLIs for the first time, you might find it useful to further divide SLIs into:
+
+- **SLI specification:** The assessment of service outcome that you think matters to users, independent of how it is measured.
+    - For example ratio of home page requests that loaded in less than 100 ms.
+- **SLI implementation:** The SLI specification and a way to measure it.
+    - logs, timers, telemetrics....
+
+A single SLI specification might have multiple SLI implementations, each with its own set of pros and cons in terms of quality (how accurately they capture the experience of a customer), coverage (how well they capture the experience of all customers), and cost. To create your first set of SLOs, you need to decide upon a few key SLI specifications that matter to your service. Availability and latency SLOs are pretty common; freshness, durability, correctness, quality, and coverage SLOs also have their place
+
+Draw a high-level architecture diagram of your system; show the key components, the request flow, the data flow, and the critical dependencies. Group these components into categories. Some suggested categories are:
+
+- Request-driven: The user creates some type of event and expects a response.
+- Pipeline: A system that takes records as input, mutates them, and places the output somewhere else.
+- Storage: A system that accepts data (e.g., bytes, records, files, videos) and makes it available to be retrieved at a later date.
+
+For example:
+![image](https://github.com/Vmorais22/Learning/assets/45717130/e0bf58e0-e215-411c-a714-5f8bae6ae927)
+
+
+### Moving from SLI Specification to SLI Implementation
+
+
+
+
+
+
+
+
+
+# The Art of SLOs (by the Google's Customer Reliability Engineering team)
+
+The goal of this section is to show the way Google measures service reliability in terms of:
+- **Service Level Indicators (SLI)**: how relaiable our service is
+- **Service Level Objectives (SLO)**: descrbies when a service is reliable enought to meet the user needs and happyness.
+- **Error budget**: complement of SLO, the accepted level of unreliability.
+
+In other words, providing an objective way of mesuring the reliability.
   
