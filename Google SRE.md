@@ -109,6 +109,11 @@ For example:
 
 ### Moving from SLI Specification to SLI Implementation
 
+For first attempts always choose something that requires a minimum engineering work. Because you need enough information to measure the SLI and this implies making changes on the code. Measure times, count number of events... For example:
+- **API and HTTP server availability and latency**: 5XX rsponses count against SLO while all other requests are considered succesfful.. The availability is the propotion of succesful request and the latency the protion of requests faster enough to fit in our defined threshold.
+- **Pipeline freshness, coverage, and correctness**: Freshnes can be calculated via saving timestamps and retrieving them. Coverage can be set checking how many records are being processed succesfully, etc.
+
+At the end, we are implementing a white-box monitoring system that collects metricos from various parts of the components.
 
 
 
