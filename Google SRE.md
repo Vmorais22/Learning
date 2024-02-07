@@ -113,13 +113,61 @@ For first attempts always choose something that requires a minimum engineering w
 - **API and HTTP server availability and latency**: 5XX rsponses count against SLO while all other requests are considered succesfful.. The availability is the propotion of succesful request and the latency the protion of requests faster enough to fit in our defined threshold.
 - **Pipeline freshness, coverage, and correctness**: Freshnes can be calculated via saving timestamps and retrieving them. Coverage can be set checking how many records are being processed succesfully, etc.
 
-At the end, we are implementing a white-box monitoring system that collects metricos from various parts of the components.
+At the end, we are implementing a white-box monitoring system that collects metricos from various parts of the components. With this metrics we obtain data about how our system works and, choosing an appropiate window time, we can see the percentage of this SLI and determine which should be our SLO. The matter now is, how to choose an appropaite time window? 
 
+- For example don't choose a month if our traffic differs significatly from weekday to weekend. Like our case in Gold team. Use always the same numbers of weekends.
+- Shorter time windows allow us to make decisions more quickly. Small course corrections and small waiting time to see the results.
+- On the other hand, longer time periods are better for strategic decsions..
+- **Four-week rolling window** is a good general-purpose interval.
 
+### Getting Stakeholder Agreement
+- The product managers have to agree that this threshold is good enough for users—performance below this value is unacceptably low and worth spending engineering time to fix.
+- The product developers need to agree that if the error budget has been exhausted, they will take some steps to reduce risk to users until the service is back in budget (as discussed in Establishing an Error Budget Policy).
+- The team responsible for the production environment who are tasked with defending this SLO have agreed that it is defensible without Herculean effort, excessive toil, and burnout—all of which are damaging to the long-term health of the team and service.
+ #### Approving the error budget
 
+ Agreeing on the SLO implies approving the error budgte. Getting the error budget by all the stakeholders is important.
+ 
+ - If the SRE feel that the SLO is not defensible we can attempt to relax some objectives.
+ - If the development team and product manager feel that the increased resources they’ll have to devote to fixing reliability will cause feature release velocity to fall below acceptable levels, then they can also argue for relaxing objectives.
+ - If the product manager feels that the SLO will result in a bad experience for a significant number of users before the error budget policy prompts anyone to address an issue, the SLOs are likely not tight enough.
 
+#### Exhausting the error budget
 
+This policy should cover the specific actions that must be taken when a service has consumed its entire error budget for a given period of time, and specify who will take them.
 
+- The development team gives top priority to bugs relating to reliability issues over the past four weeks.
+- To reduce the risk of more outages, a production freeze halts certain changes to the system until there is sufficient error budget to resume changes.
+
+#### Documenting the SLO and Error Budget Policy
+
+An appropriately defined SLO and error Budget should be documented in a prominent location where other teams and stakeholders can review it. This documentation should include the following information:
+
+- SLO
+  - Autor, reviewers and approvers. The date.
+  - Objectives and the SLI implementations.
+  - How the error budget is calculated and consumed.
+  - Example: https://sre.google/workbook/slo-document/
+- Error Budget
+  - Autor, reviewers and approvers. The date.
+  - The actions to be taken in response to budget exhaustion.
+  - Example: https://sre.google/workbook/error-budget-policy/
+ 
+#### Continuous Improvement of SLO Targets
+
+Before you can improve your SLO targets, you need a source of information about user satisfaction with your service.
+
+You can also check the number of tickets arraised with the budget loss per day.
+
+![image](https://github.com/Vmorais22/Learning/assets/45717130/04d393d6-0911-4e8e-abff-e95a0d54b2bb)
+
+In the example above we see two outliers: one day with only 5 tickets, where we lost 10% of our error budget, and one day with 40 tickets, on which we lost no error budget. Both warrant closer investigation. If some of your outages and ticket spikes are not captured in any SLI or SLO, or if you have SLI dips and SLO misses that don’t map to user-facing issues, this is a strong sign that your SLO lacks coverage.
+
+#### Institute an aspirational SLO
+
+Sometimes you determine that you need a tighter SLO to make your users happy, but improving your product to meet that SLO will take some time. If you implement the tighter SLO, you’ll be permanently out of SLO and subject to your error budget policy. In this situation, you can make the refined SLO an aspirational SLO—measured and tracked alongside your current SLO, but explicitly called out in your error budget policy as not requiring action. This way you can track your progress toward meeting the aspirational SLO, but you won’t be in a perpetual state of emergency.
+
+### Decision Making Using SLOs and Error Budgets
 
 
 # The Art of SLOs (by the Google's Customer Reliability Engineering team)
