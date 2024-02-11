@@ -1,5 +1,9 @@
 # SRE - Site Reliability Engineering 
 
+1. [ Introduction. ](#Introduction)
+2. [ DevOps or SRE. ](#DevOps or SRE)
+
+<a name="Introduction"></a>
 ## Introduction
 
 Historcyally there's this sysadmin model of service managmetn in which we have sysadmins as the persons in charge of running complex services and responding to events and updates. So we distinuigh between the development team and the operations or ops team.
@@ -15,6 +19,7 @@ The idea of SRE team is that software enginers are in charge of running the prod
   
 SRE teams focus on egineering to automate tasks and aovid linear scaling of operations with service sieze. 50% of its loadwork is "ops" to ensure have sufficient time to make the service stable and operable.
 
+<a name="DevOps or SRE"></a>
 ## DevOps or SRE ?
 
 Althoguh its not the same, DevOps can be think as a generalitzacion of several core SRE principles. Or, with other words, SRE is a specific implementation of DevOps.
@@ -202,7 +207,9 @@ A good way to know which SLo are the most appropiate to our service is via the *
 
 ### Improve reliability
 At the end our error budget is related to the Time to Detect (TTD) an error, the Time To Resolve (TTR) this issue, the impact of the issue based on users/functionlaity and the Time To Failure (TTF). 
+
 ![image](https://github.com/Vmorais22/Learning/assets/45717130/3e5f2273-d954-4e6d-92d0-49b03181419f)
+
 By solving this factors, we improve the reliability of our service:
 
 - Reducing detection time by improving the mesuring and alerting of incidences.
