@@ -19,6 +19,13 @@ SRE teams focus on egineering to automate tasks and aovid linear scaling of oper
 
 Althoguh its not the same, DevOps can be think as a generalitzacion of several core SRE principles. Or, with other words, SRE is a specific implementation of DevOps.
 
+## We also have CRE
+
+Customer Reliability Enginnering (CRE) focus on breaking down organizatyional barries not between individual silos in a  same company but between the cloud customer and its platform provider. Make sure that everyone has visibility into the system so the customer can see how the platgorm is performing.
+
+- Reliability is the most important feature.
+- Users decide reliability, noy monitoring.
+
 ## Principles of SRE
 
 In general, an SRE team is responsible for the availability, latency, performance, efficiency, change management, monitoring, emergency response, and capacity planning of their service(s).
@@ -76,6 +83,8 @@ In order to adopt an error budget-based approach to Site Reliability Engineering
 - The organization has committed to using the error budget for decision making and prioritizing. This commitment is formalized in an error budget policy.
 - There is a process in place for refining the SLO.
 
+A good SLO should be ambitious and yet achievable.  Plus, you’ll want to find the right point where it’s good enough to keep customers happy.
+
 ### Reliability Targets and Error Budgets
 
 An SLO sets a target level of reliability for the service’s customers. Above this threshold, almost all users should be happy with your service. Below this threshold, users are likely to start complaining or to stop using the service. Once you have an SLO target below 100%, it needs to be owned by someone in the organization who is empowered to make tradeoffs between feature velocity and reliability. This is normally the product owner (or product manager).
@@ -84,7 +93,9 @@ But, how to mesure the right number? **Using SLI**. An SLI is an indicator of th
 
 *For example if our SLO is just based on the HTTP request SLI mentioned above and it's 90% it means that our SLO is 90 out of 100 HTTP request should be succesful or, in other words, a budget error of 10 out of 100 HTTP request that will fail. If we have 50 out of 100 HTTP requests failing we are excedding our error budget.*
 
-Also helps on writting alerting logic.
+*Another example, if we have a 99.9% of availability that implies a 0.1% of unavailabiltiy. This, in 28 days (one month), in minutes, implies 40.32 minutes. This is the amout of time our service can be down without violating the SLO. Not a lot of time to fix an issue...*
+
+If you ran out of budget, you need to take actions to improve the reliability of your service.
 
 ### Specificating SLI
 
@@ -106,7 +117,6 @@ Draw a high-level architecture diagram of your system; show the key components, 
 For example:
 ![image](https://github.com/Vmorais22/Learning/assets/45717130/e0bf58e0-e215-411c-a714-5f8bae6ae927)
 
-
 ### Moving from SLI Specification to SLI Implementation
 
 For first attempts always choose something that requires a minimum engineering work. Because you need enough information to measure the SLI and this implies making changes on the code. Measure times, count number of events... For example:
@@ -121,9 +131,11 @@ At the end, we are implementing a white-box monitoring system that collects metr
 - **Four-week rolling window** is a good general-purpose interval.
 
 ### Getting Stakeholder Agreement
+
 - The product managers have to agree that this threshold is good enough for users—performance below this value is unacceptably low and worth spending engineering time to fix.
 - The product developers need to agree that if the error budget has been exhausted, they will take some steps to reduce risk to users until the service is back in budget (as discussed in Establishing an Error Budget Policy).
 - The team responsible for the production environment who are tasked with defending this SLO have agreed that it is defensible without Herculean effort, excessive toil, and burnout—all of which are damaging to the long-term health of the team and service.
+- 
  #### Approving the error budget
 
  Agreeing on the SLO implies approving the error budgte. Getting the error budget by all the stakeholders is important.
@@ -138,6 +150,15 @@ This policy should cover the specific actions that must be taken when a service 
 
 - The development team gives top priority to bugs relating to reliability issues over the past four weeks.
 - To reduce the risk of more outages, a production freeze halts certain changes to the system until there is sufficient error budget to resume changes.
+- Another option to reduce risks is to release new functionalities to a reduced set of the customer base to reduce the impact in case of negative experience.
+
+#### Adavnced techinques
+
+We can think of the error budget as an economic budget. We can spend extra budget at the end of the quarter or apply different strategies to woirk with low error budget. Some advanced techniques are:
+- Dynamic release cadence based on the the remaining error budget.
+- Always store a porpotion of error budget to cover unexpected events (have a tailbone).
+- Have alerts based on the error budget (for example alert when we consum more than X % of the error budget during an incidence).
+- Apply exceptions to the error budgets when is needed to release criticial new features. This shoudl be agreeded with the stakeholders.
 
 #### Documenting the SLO and Error Budget Policy
 
@@ -168,6 +189,38 @@ In the example above we see two outliers: one day with only 5 tickets, where we 
 Sometimes you determine that you need a tighter SLO to make your users happy, but improving your product to meet that SLO will take some time. If you implement the tighter SLO, you’ll be permanently out of SLO and subject to your error budget policy. In this situation, you can make the refined SLO an aspirational SLO—measured and tracked alongside your current SLO, but explicitly called out in your error budget policy as not requiring action. This way you can track your progress toward meeting the aspirational SLO, but you won’t be in a perpetual state of emergency.
 
 ### Decision Making Using SLOs and Error Budgets
+
+By acknowledging that a specific quantity of unrealiability is acceptable provides a budget for failure that allows us to spent time on developing new features. The rest is dedicated to make the system reliabe enough. The SLO determines how fast you can develop. Under the threshold? You can run. Over the budget? You need to slow down.
+
+You need to know:
+
+- What you are promising and to whom?
+- How to measure. Which metrics?
+- Which is the accepted realibility.
+
+A good way to know which SLo are the most appropiate to our service is via the **Happiness test**. Is based on the happiness of the clients. Meeting the SLO and the desired reliablity makes clients happy. SLo should be applied to all the customer base.
+
+### Improve reliability
+At the end our error budget is related to the Time to Detect (TTD) an error, the Time To Resolve (TTR) this issue, the impact of the issue based on users/functionlaity and the Time To Failure (TTF). 
+![image](https://github.com/Vmorais22/Learning/assets/45717130/3e5f2273-d954-4e6d-92d0-49b03181419f)
+By solving this factors, we improve the reliability of our service:
+
+- Reducing detection time by improving the mesuring and alerting of incidences.
+- Reducing repair time by writting a playbok/runbook to imrpove the solving process.
+- Reduce impact by reducing the numbers of users that can be affected (by releasing to a subset of all the users, for example).
+- Reduce the failure frequency. Running the service on multiple hosts with automatic redirection... There are a lot's of strategies.
+
+In addition to the topis above that are also helpful to improve realiabiltiy:
+
+- Analyze error budget spent and see if its uneven and detect which are the principal causes of the bigger ratios of budget spent so focus next actions on this parts.
+- Standarize infraestructure (software nad hardware).
+- Being able to quicky rollback a release and revert changes.
+- Report the bug in postmortems (bugs in the product, in the code or even in the SLO iself).
+- Gradually changes in productions (release phases, gradually incremental).
+
+## SLA Service Level Agreements
+
+**Agrements with customers about the reliability of your service**. If your customers are paying for a service and we as organmization violate the SLA there needs to be consequences ax extra free service of refunds. We want to catch issues before catching SLA. The difference between SLA and SLO is SLA is a external promise with monetary consequences while SLO is an internal promise to meet customers expectations. SLOs should be stronger than your SLAs to catch issues before they violate customer expectation. For example, if our SLA is that all HTTP requests are returned in 300 ms, our SLO should be to be returned in 200 ms.
 
 
 # The Art of SLOs (by the Google's Customer Reliability Engineering team)
