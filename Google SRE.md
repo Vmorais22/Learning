@@ -1,8 +1,8 @@
 # SRE - Site Reliability Engineering 
 
 1. [ Introduction. ](#Introduction)
-2. [ DevOps or SRE. ](#DevOps or SRE)
-
+2. [ DevOps or SRE. ](#DevOpsorSRE)
+3. [ We also have CRE. ](#WealsohaveCRE)
 <a name="Introduction"></a>
 ## Introduction
 
@@ -19,11 +19,12 @@ The idea of SRE team is that software enginers are in charge of running the prod
   
 SRE teams focus on egineering to automate tasks and aovid linear scaling of operations with service sieze. 50% of its loadwork is "ops" to ensure have sufficient time to make the service stable and operable.
 
-<a name="DevOps or SRE"></a>
+<a name="DevOpsorSRE"></a>
 ## DevOps or SRE ?
 
 Althoguh its not the same, DevOps can be think as a generalitzacion of several core SRE principles. Or, with other words, SRE is a specific implementation of DevOps.
 
+<a name="WealsohaveCRE"></a>
 ## We also have CRE
 
 Customer Reliability Enginnering (CRE) focus on breaking down organizatyional barries not between individual silos in a  same company but between the cloud customer and its platform provider. Make sure that everyone has visibility into the system so the customer can see how the platgorm is performing.
