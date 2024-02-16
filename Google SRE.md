@@ -262,10 +262,9 @@ How to have a good metric then? There are **5 ways to measure any SLI and each h
 We usually find that any number of specific root causes collapse down to a small set of observable symptoms. Our SLI menu gives you guidelines for what types of SLI you are likely to want to measure for a given user journey.
 
 ![image](https://github.com/Vmorais22/Learning/assets/45717130/9f464f0c-7aaa-4064-9eab-72301e651b15)
-
 - If your service is responding to a user's request, you want to measure how fast those responses are and how many of them are unsuccessful.
-      - Availability ->  **The proportion of valid requests served succesfully**. Determine which requests are valid and which responses are          successful.
-      - Latency ->  A system is not perceived as interactive by its users if the requests are not responded to in a timely fashion. So we             have here **the proportion of valid requests served faster than a threshold**. Which are valid? Which is a good threshold?
+  - Availability ->  **The proportion of valid requests served succesfully**. Determine which requests are valid and which responses are          successful.
+  - Latency ->  A system is not perceived as interactive by its users if the requests are not responded to in a timely fashion. So we             have here **the proportion of valid requests served faster than a threshold**. Which are valid? Which is a good threshold?
 - If the user is expecting some data to be processed, then they will probably have expectations that processing completes within a reasonable time frame and processes all the data it should have without errors. Also is important the freshness (the timestamp of the requested data and the most recent data available) and  the correctness (Percentage of responses that contain accurate information or meet predefined criteria).
 - If the user is giving you some of their data to store and want to retrieve that data again, you  want to measure the durability of your storage layer.
 
