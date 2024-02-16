@@ -230,6 +230,48 @@ In addition to the topis above that are also helpful to improve realiabiltiy:
 
 **Agrements with customers about the reliability of your service**. If your customers are paying for a service and we as organmization violate the SLA there needs to be consequences ax extra free service of refunds. We want to catch issues before catching SLA. The difference between SLA and SLO is SLA is a external promise with monetary consequences while SLO is an internal promise to meet customers expectations. SLOs should be stronger than your SLAs to catch issues before they violate customer expectation. For example, if our SLA is that all HTTP requests are returned in 300 ms, our SLO should be to be returned in 200 ms.
 
+## Choosing a good SLI
+
+How to specify meaningful SLI to drive those SLO?
+
+### Metrics and mesurement
+
+Rememeber than SLO should represent the line between happy and unhappy users. We need to find ways to quantify the user experience. We need SLI that has almost a linear relationship with happiness of our users. That we can predict it based on the metric.
+
+System metrics like load average, CPU utilization, memory usage, or bandwidth are commonly graphed and visible on monitoring dashboards. It's tempting to reach for these metrics when looking for SLIs because sharp changes in them are often associated with outages. But that's not a good idea.
+
+A good SLI metric should be:
+
+- As said, predictable relatinoship with user happiness.
+- Shows service is working as users expect it to.
+- Expressed as; good evenets/valid events.
+- Aggregated over a long time horizon. A low level of variance (more stabilized) makes easier to detect changes and define a thereshold.
+
+![image](https://github.com/Vmorais22/Learning/assets/45717130/9a5ccda4-69d5-49c4-bb7a-aabf8e9a4c87) 
+![image](https://github.com/Vmorais22/Learning/assets/45717130/2b67165b-87a6-4857-a206-43b780edd5c9)
+
+How to have a good metric then? There are **5 ways to measure any SLI and each has their own set of advantages and disadvantages**:
+
+- Request logs
+- Application metrics
+- Front-end infraestructure metrics (Cloud provider)
+- Synthetic clients - integration tests.
+- Client-side instrumentation.
+
+### Commonly used SLI
+We usually find that any number of specific root causes collapse down to a small set of observable symptoms. Our SLI menu gives you guidelines for what types of SLI you are likely to want to measure for a given user journey.
+
+![image](https://github.com/Vmorais22/Learning/assets/45717130/9f464f0c-7aaa-4064-9eab-72301e651b15)
+
+- If your service is responding to a user's request, you want to measure how fast those responses are and how many of them are unsuccessful.
+      - Availability ->  **The proportion of valid requests served succesfully**. Determine which requests are valid and which responses are          successful.
+      - Latency ->  A system is not perceived as interactive by its users if the requests are not responded to in a timely fashion. So we             have here **the proportion of valid requests served faster than a threshold**. Which are valid? Which is a good threshold?
+- If the user is expecting some data to be processed, then they will probably have expectations that processing completes within a reasonable time frame and processes all the data it should have without errors. Also is important the freshness (the timestamp of the requested data and the most recent data available) and  the correctness (Percentage of responses that contain accurate information or meet predefined criteria).
+- If the user is giving you some of their data to store and want to retrieve that data again, you  want to measure the durability of your storage layer.
+
+As said, SLI must have or should have a rate expression between good events/valid events so it fails between 0 and 100%. A intuitive scale. Secondly,it provides a consistent and exportable format. But, **what's a valid event?** Sometimes you may need to completely exclude some events recorded by your underlying monitoring metrics from being included in your SLI, so they cannot consume your Error Budget. A good event, on the other hand, is determined from what we expect the system to return/response.
+
+
 
 # The Art of SLOs (by the Google's Customer Reliability Engineering team)
 
