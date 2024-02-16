@@ -265,13 +265,27 @@ We usually find that any number of specific root causes collapse down to a small
 - If your service is responding to a user's request, you want to measure how fast those responses are and how many of them are unsuccessful.
   - Availability ->  **The proportion of valid requests served succesfully**. Determine which requests are valid and which responses are          successful.
   - Latency ->  A system is not perceived as interactive by its users if the requests are not responded to in a timely fashion. So we             have here **the proportion of valid requests served faster than a threshold**. Which are valid? Which is a good threshold?
+  - Quality -> If your system has mechanisms to trade off quality of the response returned to the user with something else, such as CPU or        memory utilization, you should track this graceful degradation of service with a quality SLI. So **the proportion of valid requests           served without degrading quality**.
 - If the user is expecting some data to be processed, then they will probably have expectations that processing completes within a reasonable time frame and processes all the data it should have without errors. Also is important the freshness (the timestamp of the requested data and the most recent data available) and  the correctness (Percentage of responses that contain accurate information or meet predefined criteria).
+  - Freshness -> When processing data is common that the output degrades over time as new input data is generated. **The proportion of valid        data updated more recently than a threshold.** Which of the data this system processes are valid? When the timer for measuring the           freshness of the data starts and stops?
+  - Correctness -> **The proportion of valid data producing correct output**. Which data is valid? How to determine output is correct? A good exercise is to have golden input with well know output and test the suystem with it.
+  - Coverage -> **The proportion of valid data processed succesfully**. Which data is valid? AHow to determine data was succesfully proccessed?
+  - Throughput -> **The proportion of time where data processing rate is faster than threshold.** The most common unit is byte/seconds.
 - If the user is giving you some of their data to store and want to retrieve that data again, you  want to measure the durability of your storage layer.
 
 As said, SLI must have or should have a rate expression between good events/valid events so it fails between 0 and 100%. A intuitive scale. Secondly,it provides a consistent and exportable format. But, **what's a valid event?** Sometimes you may need to completely exclude some events recorded by your underlying monitoring metrics from being included in your SLI, so they cannot consume your Error Budget. A good event, on the other hand, is determined from what we expect the system to return/response.
 
+### Managing complexity
 
+You should aim just 1-3 SLI per journey. Even with complex services. More SLI results in higher cognitive load and increases the probability of conflicts beteen signals. Not all journeys are important also. We can aggregate similar journeys to just one higher. We should prioritize important journeys.
 
+For example. We can have 4 journeys such as 'open an app', search in a field text, filter the results, click the details of one element. 4 different journeys with its, for example, latency SLI. We can aggregate this in meta-joruney called 'browse' and sum all the valid events and good evenets and have browsing SLI. This have its disadvantatges because you are losing information about specific parts of the flow.
+
+### Setting Reliability targets
+
+User expectations are strongly tied to past performance. If you've based your SLIs on already existing monitoring metrics, you can take a look at this historical data and choose a target that you believe you have a good chance of meeting over the short to medium term based on the past performance of that service. However, here we are assuming that our clients are currently and were in the past happy.
+
+We have maybe a divergence between the aspirational targets that the business needs and the real achievable targets that the past perfomance represents. We need a process to drive convergence. We can always asks users for feedback to see if our users and unhappy despite being on SLO. The continuos improvement should be once a year at least.
 # The Art of SLOs (by the Google's Customer Reliability Engineering team)
 
 The goal of this section is to show the way Google measures service reliability in terms of:
