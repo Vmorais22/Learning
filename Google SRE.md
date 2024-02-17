@@ -3,10 +3,10 @@
 1. [ Introduction ](#Introduction)
 2. [ DevOps or SRE ](#DevOpsorSRE)
 3. [ We also have CRE ](#WealsohaveCRE)
-4. [ Principles of SRE ] (#PrinciplesSRE)
-5. [ Fundations ] (#Foundations)
-6. [ SLA Service Level Agreements ] (#SLA)
-7. [ Choosing a good SLI ] (#choosingSLI)
+4. [ Principles of SRE ](#PrinciplesSRE)
+5. [ Fundations ](#Foundations)
+6. [ SLA Service Level Agreements ](#SLA)
+7. [ Choosing a good SLI ](#choosingSLI)
 
 <a name="Introduction"></a>
 ## Introduction
