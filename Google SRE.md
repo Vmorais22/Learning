@@ -1,8 +1,13 @@
 # SRE - Site Reliability Engineering 
 
-1. [ Introduction. ](#Introduction)
-2. [ DevOps or SRE. ](#DevOpsorSRE)
-3. [ We also have CRE. ](#WealsohaveCRE)
+1. [ Introduction ](#Introduction)
+2. [ DevOps or SRE ](#DevOpsorSRE)
+3. [ We also have CRE ](#WealsohaveCRE)
+4. [ Principles of SRE ] (#PrinciplesSRE)
+5. [ Fundations ] (#Foundations)
+6. [ SLA Service Level Agreements ] (#SLA)
+7. [ Choosing a good SLI ] (#choosingSLI)
+
 <a name="Introduction"></a>
 ## Introduction
 
@@ -32,6 +37,7 @@ Customer Reliability Enginnering (CRE) focus on breaking down organizatyional ba
 - Reliability is the most important feature.
 - Users decide reliability, noy monitoring.
 
+<a name="PrinciplesSRE"></a>
 ## Principles of SRE
 
 In general, an SRE team is responsible for the availability, latency, performance, efficiency, change management, monitoring, emergency response, and capacity planning of their service(s).
@@ -74,6 +80,7 @@ Provisioning, involving change management and capacity planning, must be conduct
 
 Utilization, a function of demand, capacity, and software efficiency, is a key lever for controlling service costs. SREs focus on optimizing provisioning strategy, monitoring performance, and modifying services for improved efficiency.
 
+<a name="Foundations"></a>
 ## Foundations
 
 The basic foundations of SRE include SLOs, monitoring, alerting, toil reduction, and simplicity.
@@ -226,10 +233,12 @@ In addition to the topis above that are also helpful to improve realiabiltiy:
 - Report the bug in postmortems (bugs in the product, in the code or even in the SLO iself).
 - Gradually changes in productions (release phases, gradually incremental).
 
+<a name="SLA"></a>
 ## SLA Service Level Agreements
 
 **Agrements with customers about the reliability of your service**. If your customers are paying for a service and we as organmization violate the SLA there needs to be consequences ax extra free service of refunds. We want to catch issues before catching SLA. The difference between SLA and SLO is SLA is a external promise with monetary consequences while SLO is an internal promise to meet customers expectations. SLOs should be stronger than your SLAs to catch issues before they violate customer expectation. For example, if our SLA is that all HTTP requests are returned in 300 ms, our SLO should be to be returned in 200 ms.
 
+<a name="choosingSLI"></a>
 ## Choosing a good SLI
 
 How to specify meaningful SLI to drive those SLO?
