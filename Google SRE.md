@@ -303,4 +303,16 @@ The goal of this section is to show the way Google measures service reliability 
 - **Error budget**: complement of SLO, the accepted level of unreliability.
 
 In other words, providing an objective way of mesuring the reliability.
+
+## Developing SLI & SLO
+
+The process can be broken into 4 steps.
+
+1) **Choose an SLI specification from the SLI menu**. The SLI specification is a hig-level description of a dimension of reliability that we would like to measure about our service.
+2) **Refine the specification into a detailed SLI implementation**. SLI implementations have concrete definitions of what the events are, what makes them valid for inclusion into the SLI, what makes them good, and how/where they are measured.
+3) **Walk through the user journey and look for coverage gaps**.
+4) **Set aspirational SLO targets based on business needs**. You can wait a couple of measurement intervals with your SLI before doing it.
+
+
+
   
