@@ -313,6 +313,35 @@ The process can be broken into 4 steps.
 3) **Walk through the user journey and look for coverage gaps**.
 4) **Set aspirational SLO targets based on business needs**. You can wait a couple of measurement intervals with your SLI before doing it.
 
+### Refininf SLI specticiations
 
+Imagine we have a requesdt/response service. We can see in the SLI menu that we are interested on avaiability, quality and latency. Good, we have an initial specification. We need to refine it in order to do the implementation. Its important to know:
+
+- Where is SLI meqasured?
+- What does SLI measure?
+- What metrics should be included or excluded?
+- Is there enough detail to implement this SLI?
+
+For example, let's start with availabilty: **the proportion of valid requests that were served succesfully.**
+
+What's a valid request? We need to know in which user journey we are. For example, a request/response app with a user that wants to access its profile. So, valid requests will be all asking for a user profile. We need to identify and extract this request from all HTTP requests.
+
+- So now we have: **the proportion of HTTP GET requests for /profile/'*' that were served succesfully.**
+
+And now, what's served succesfully? We need to analyze our responses and decide what is good and waht no. For example, all 2xx, 3xx, 4xx are good and if something fails we retun 503. So:
+
+- This makes: **the proportion of HTTP GET requests for /profile/'*' that return 2xx, 3xx or 4xx.**
+
+Last question is to know where to measure this. For example, the load balancer because have all our incoming requests and they are already recording metric of HTTP response codes:
+
+- So: **the proportion of HTTP GET requests for /profile/'*' that return 2xx, 3xx or 4xx measured at the load balancer.**
+
+
+Another example. Latency:
+
+- **The proportion of valid requests that were served faster than a given threshold**
+
+Can be refined to:
+- **The proportion of HTTP GET request for /profile/'*' that send their entire response within X ms measured at the load balancer**
 
   
