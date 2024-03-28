@@ -349,4 +349,16 @@ Can be refined to:
 Is important to known if the SLIs adequately capture the user journey and its failure modes and if there are any expections or edge cases to consider. Is unrelaistic to cover the 100% of the cases. You pay rare failure modes with your error budget. Is important to exclude factors outside your control from the SLI. Sometimes the work required to cover a rare edge case does not benefit enough and is simpler to just detectec and be prepared to mitigate it. Is important to documentate the exceptions and its justifications.
 
 
+## Quantifying risk for SLO
+
+Are the SLO targets and the error budgets realistic? This is the main question to answer in this section
+
+### Is your error budget realistic?
+Imagine we set a SLO for our availability of 99.95% based on the historical data of our load balancer. But if we have a non-static estate due to continuous improvements we can not pressume today-state is useful to set this target. Past performance is not an indiciator for future availability. Can we exepct to burn less error budget if we took years instead of months? Can we identify main issues that burn mostly our error budget? The risk of that accident happening can be modeled as the impact of the accident multiplied by the probability of the hazard causing the accident. If we can quantify both probability and impact we can understand the risk to our SLO posed by that hazard.
+
+We will start off by trying to enumerate risks to our SLO based on what we know about our dependencies, serving infrastructure, application, and user behavior. This is an exercise in constructive pessimism, something that SREs in particular tend to have a lot of experience with.
+
+### 
+
+
 
