@@ -344,4 +344,9 @@ Another example. Latency:
 Can be refined to:
 - **The proportion of HTTP GET request for /profile/'*' that send their entire response within X ms measured at the load balancer**
 
-  
+### RSLI covering failure modes of the service
+
+Is important to known if the SLIs adequately capture the user journey and its failure modes and if there are any expections or edge cases to consider. Is unrelaistic to cover the 100% of the cases. You pay rare failure modes with your error budget. Is important to exclude factors outside your control from the SLI. Sometimes the work required to cover a rare edge case does not benefit enough and is simpler to just detectec and be prepared to mitigate it. Is important to documentate the exceptions and its justifications.
+
+
+
