@@ -385,3 +385,42 @@ Remember that:
 
 As we can see in here we have the risks ordered by the error budget they consume and different availability targets with the minutes per years that makes our error budget. We can see per each % the risks that we can assume en green / red, different depending on number of 9 of our availbility SLO. If you have red rows is time to work to mitigate this risks. If you improve the factors above and return to the risk stack rank it will have change. When all is green you have a system that meets your error budget.
 
+## Best practices to document your SLOs
+
+- Documenting your SLO
+    - Why the threshold is where it is
+    - Why the SLIs are appropiate for measuring the SLO
+    - Identify monitoring data deliberately excluded from the SLI.
+- Track SLO versions
+- Incorporate SLo metadata in your dashboard (grafana)
+![image](https://github.com/Vmorais22/Learning/assets/45717130/a94bbbaf-b424-4d82-84fa-18778bca0eca)
+
+### Error budget policy
+
+An error budget policy describes how your business decides to trade off reliability work against other feature work when the SLO indicates a service is not reliable enough. Failing to meet SLO indicate users are not happy and we need to invest time to improve the reliability insetad of doing new features. It should be documented some high-level. Is not attached to some service but for all the team.
+
+- If an error budget is burned or is going to be the error budget policy should encourage developers to re-prioritize work and features that improvie service reliability.
+- It should be clear on when it should take effect. Whern all is consumed? When X % is remaining?
+- Details the ins and outs on how devs are gpoing to prioritize the reliability over neew functionalities.
+- Include the consequences for this not happeining.
+- Be consistenyl applied.
+- Document whom to escalate disagreements to.
+- Be agreed upon and signed off by all parties.
+
+Choose thresolds and consequences that align with business priorities for when errod budget is burnt. Keeping a record of precedents set when the policy has been applied in the past will also help guide future decision-making and maintain consistency. Make sure you leave some room for a retrospective on your error budget policy every so often to ensure that it's still performing well for your organization. 
+ 
+ For example:
+ 
+ ![image](https://github.com/Vmorais22/Learning/assets/45717130/dce6aaf9-994d-4fff-b05c-e1108a4fadb3)
+
+
+An example for the example:
+
+1) We have a availability SLO target of 99.9% over a 30 day window.
+2) We introduce a bug in production and the SLI drops to 99.85%.
+3) The error budget is solowly burnt and we will not be alerted until 4 days and a half past whe a week is burnt.
+4) The RE teams needs additional help of the Dev team after analysing the incidence.
+5) At this point, it's now impractical to roll back nearly two weeks of daily releases to the service. So, when the 30-day error budget is exhausted after another four days of mostly fruitless investigation by the SRE and dev on calls, SRE stops new feature releases for the service and escalates for more developer engagement with the problem.
+6) fter another six weeks or so, the service is still unreliable. But the task force has reached the conclusion that the performance regression was a red herring. At this point, we burned a whole lot of error budget, enough to trigger the fourth threshold. Executive leadership convenes and calls a code yellow mandating that members of the development team stop work on their usual projects and join a coordinated effort to resolve the problem.
+7) Problem is solved.
+
