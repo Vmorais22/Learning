@@ -358,7 +358,30 @@ Imagine we set a SLO for our availability of 99.95% based on the historical data
 
 We will start off by trying to enumerate risks to our SLO based on what we know about our dependencies, serving infrastructure, application, and user behavior. This is an exercise in constructive pessimism, something that SREs in particular tend to have a lot of experience with.
 
-### 
+### Reliability risks
 
+What we really need is to prioritize our list of risks based on their expected impact to our SLO. In order to compare risks we need a common metric for both of them that allows us to quantify them. Remember that a risk is, at the end, **the probability of an event happening x the impact**. Said in other more technical words, **the time to failure x the service downtime**. With that we can check how much error budget each burnts and consider which is a major thread. 
 
+We can estimate the time to failure easily but, what about the downtime? There are three factors:
+- Time to detection
+- Time to resulation
+- Percentage of users impacted
+
+For risk analysis template: https://docs.google.com/spreadsheets/d/1XTsPG79XCCiaOEMj8K4mgPg39ZWB1l5fzDc1aDjLW2Y/view#gid=504317509
+Template usage example: https://docs.google.com/spreadsheets/d/1R_ZvkvzF1_vRIXwFFkBKxl1WCsTfdAEY1j539pyw5ko/edit#gid=847168250
+
+![image](https://github.com/Vmorais22/Learning/assets/45717130/44e4739c-783e-454d-ba5d-8312986bd59c)
+
+Remember that:
+**ETTD**: Estimated Time To Detection
+**ETTR**: Estimated Time To Resolution
+**ETTF**: Estimated Time to Failure
+
+(Tip) If some risk is huge critical we can even set more than 100% of impact to make it more dangerous and prioritary.
+
+### Analyzing the risks
+
+![image](https://github.com/Vmorais22/Learning/assets/45717130/c6201f4f-a74a-4d9d-b1fd-b9d961423a45)
+
+As we can see in here we have the risks ordered by the error budget they consume and different availability targets with the minutes per years that makes our error budget. We can see per each % the risks that we can assume en green / red, different depending on number of 9 of our availbility SLO. If you have red rows is time to work to mitigate this risks. If you improve the factors above and return to the risk stack rank it will have change. When all is green you have a system that meets your error budget.
 
